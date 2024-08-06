@@ -1,0 +1,24 @@
+@media print {
+    .print-area {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        font-family: Arial, sans-serif;
+        border: 1px solid black;
+        padding: 10px;
+    }
+    
+    .no-print {
+        display: none;
+    }
+
+    body {
+        font-size: 12px;
+    }
+
+    /* Gaya tambahan untuk memastikan konten printarea dicetak dengan baik */
+    @page {
+        size: A4;
+        margin: 20mm;
+    }
+}
