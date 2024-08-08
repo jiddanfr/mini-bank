@@ -41,9 +41,9 @@
                 <li class="nav-item {{ request()->routeIs('pengaturan.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('pengaturan.index') }}">Pengaturan Administrasi</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Rekapan</a>
-                </li>
+                <li class="nav-item {{ request()->routeIs('rekapan.*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('rekapan.index') }}">Rekapan</a>
+</li>
             </ul>
         </div>
     </nav>

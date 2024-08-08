@@ -4,14 +4,12 @@ use App\Http\Controllers\NasabahController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SimpananController;
 use App\Http\Controllers\PenarikanController;
-use App\Http\Controllers\PrintController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\PengaturanAdministrasiController;
-
+use App\Http\Controllers\RekapanController; // 
 
 // Rute untuk dashboard dan formulir simpanan/penarikan
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
 
 // Rute untuk Nasabah
 Route::prefix('nasabah')->group(function () {
@@ -27,12 +25,25 @@ Route::prefix('nasabah')->group(function () {
 // Rute untuk simpanan
 Route::post('/simpan-simpanan', [SimpananController::class, 'simpanSimpanan'])->name('simpan-simpanan');
 Route::get('/simpan-simpanan-cetak', [SimpananController::class, 'simpanSimpananCetak'])->name('simpan-simpanan-cetak');
+
 // Rute untuk penarikan
 Route::post('/simpan-penarikan', [PenarikanController::class, 'simpanPenarikan'])->name('simpan-penarikan');
 Route::get('/penarikan-cetak', [PenarikanController::class, 'penarikanCetak'])->name('penarikan-cetak');
+
 // Rute untuk aktivitas
 Route::get('/activities', [ActivityController::class, 'index'])->name('activities.index');
 Route::get('/activities/pdf', [ActivityController::class, 'generatePdf'])->name('activities.generatePdf');
 
+// Rute untuk pengaturan administrasi
 Route::get('/pengaturan', [PengaturanAdministrasiController::class, 'index'])->name('pengaturan.index');
-Route::post('/pengaturan/update', [PengaturanAdministrasiController::class, 'update'])->name('pengaturan.update');
+
+Route::put('/pengaturan/update', [PengaturanAdministrasiController::class, 'update'])->name('pengaturan.update');
+
+
+// Rute untuk rekapan
+Route::get('/rekapan', [RekapanController::class, 'index'])->name('rekapan.index');
+Route::get('/rekapan/export', [RekapanController::class, 'export'])->name('rekapan.export');
+
+Route::post('/nasabah/import', [NasabahController::class, 'import'])->name('nasabah.import');
+
+Route::get('/print-aktifitas/{id}', [SimpananController::class, 'printAktifitas'])->name('print-aktifitas');

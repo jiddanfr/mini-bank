@@ -41,10 +41,11 @@
                     @enderror
                 </div>
 
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="submit" class="btn btn-primary">Update</button>
             </form>
         @else
             <p>Pengaturan Administrasi tidak ditemukan.</p>
         @endif
     </div>
 @endsection
+    

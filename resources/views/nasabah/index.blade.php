@@ -12,6 +12,12 @@
         </div>
     @endif
 
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <div class="card">
         <div class="card-header bg-primary text-white">
             Daftar Nasabah
@@ -49,6 +55,16 @@
             </table>
         </div>
     </div>
+
+    <!-- Form Import Data -->
+    <form action="{{ route('nasabah.import') }}" method="POST" enctype="multipart/form-data" class="mt-4">
+        @csrf
+        <div class="form-group">
+            <label for="file">Import Data Nasabah (Excel)</label>
+            <input type="file" name="file" id="file" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success">Import</button>
+    </form>
 
     <!-- Tombol Tambah Nasabah -->
     <a href="{{ route('nasabah.create') }}" class="btn btn-primary btn-lg rounded-circle"
