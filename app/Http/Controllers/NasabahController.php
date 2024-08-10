@@ -27,17 +27,18 @@ class NasabahController extends Controller
     }
 
     public function edit($nis)
-    {
-        $nasabah = Nasabah::findOrFail($nis);
-        return view('nasabah.edit', compact('nasabah'));
-    }
+{
+    $nasabah = Nasabah::where('nis', $nis)->firstOrFail();
+    return view('nasabah.edit', compact('nasabah'));
+}
 
-    public function update(Request $request, $nis)
-    {
-        $nasabah = Nasabah::findOrFail($nis);
-        $nasabah->update($request->all());
-        return redirect()->route('nasabah.index')->with('success', 'Data nasabah berhasil diperbarui.');
-    }
+public function update(Request $request, $nis)
+{
+    $nasabah = Nasabah::where('nis', $nis)->firstOrFail();
+    $nasabah->update($request->all());
+    return redirect()->route('nasabah.index')->with('success', 'Data nasabah berhasil diperbarui.');
+}
+
 
     public function checkNis($nis)
     {
@@ -58,4 +59,21 @@ class NasabahController extends Controller
             return redirect()->route('nasabah.index')->with('error', 'Terjadi kesalahan saat mengimport data.');
         }
     }
+    public function destroy($nis)
+{
+    // Cari nasabah berdasarkan NIS
+    $nasabah = Nasabah::where('nis', $nis)->first();
+    
+    // Periksa apakah nasabah ditemukan
+    if (!$nasabah) {
+        return redirect()->route('nasabah.index')->with('error', 'Nasabah tidak ditemukan.');
+    }
+
+    // Hapus nasabah
+    $nasabah->delete();
+
+    // Redirect dengan pesan sukses
+    return redirect()->route('nasabah.index')->with('success', 'Nasabah berhasil dihapus.');
+}
+
 }

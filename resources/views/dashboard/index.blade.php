@@ -9,13 +9,23 @@
     <!-- Menampilkan pesan sukses atau error jika ada -->
     @if(session('success'))
         <script>
-            alert("{{ session('success') }}");
+            Swal.fire({
+                title: 'Success!',
+                text: "{{ session('success') }}",
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
         </script>
     @endif
 
     @if($errors->any())
         <script>
-            alert("{{ $errors->first() }}");
+            Swal.fire({
+                title: 'Error!',
+                text: "{{ $errors->first() }}",
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
         </script>
     @endif
 
@@ -46,7 +56,7 @@
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-block">Submit</button>
-                            <button type="button" class="btn btn-secondary btn-block" id="cetakButton" data-url="{{ route('simpan-simpanan-cetak') }}">Submit & Print</button>
+                            <!-- Tombol Submit & Print dihilangkan -->
                         </div>
                     </form>
                 </div>
@@ -79,7 +89,7 @@
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-danger btn-block">Submit</button>
-                            <button type="button" class="btn btn-secondary btn-block" id="penarikanCetakButton" data-url="{{ route('penarikan-cetak') }}">Submit & Print</button>
+                            <!-- Tombol Submit & Print dihilangkan -->
                         </div>
                     </form>
                 </div>
@@ -87,57 +97,8 @@
         </div>
     </div>
 
-    <!-- Div untuk menampilkan hasil -->
-    <div id="result" style="display:none;">
-        <h2>Hasil Cetak</h2>
-        <iframe id="resultFrame" width="100%" height="600px"></iframe>
-    </div>
 </div>
 
-<script>
-document.getElementById('cetakButton').addEventListener('click', function() {
-    let form = document.getElementById('simpanForm');
-    let formData = new FormData(form);
-    let url = this.getAttribute('data-url');
-    fetch(url, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
-    })
-    .then(response => response.blob())
-    .then(blob => {
-        let url = URL.createObjectURL(blob);
-        let iframe = document.getElementById('resultFrame');
-        iframe.src = url;
-        document.getElementById('result').style.display = 'block';
-    })
-    .catch(error => alert('Terjadi kesalahan: ' + error.message));
-});
-
-document.getElementById('penarikanCetakButton').addEventListener('click', function() {
-    let form = document.getElementById('penarikanForm');
-    let formData = new FormData(form);
-    let url = this.getAttribute('data-url');
-    fetch(url, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
-    })
-    .then(response => response.blob())
-    .then(blob => {
-        let url = URL.createObjectURL(blob);
-        let iframe = document.getElementById('resultFrame');
-        iframe.src = url;
-        document.getElementById('result').style.display = 'block';
-    })
-    .catch(error => alert('Terjadi kesalahan: ' + error.message));
-});
-
-</script>
 <!-- Menambahkan SweetAlert2 script -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

@@ -44,6 +44,13 @@
                             <td>{{ number_format($nasabah->saldo_total, 2) }}</td>
                             <td>
                                 <a href="{{ route('nasabah.edit', $nasabah->nis) }}" class="btn btn-warning btn-sm">Edit</a>
+                                
+                                <!-- Form Hapus dengan konfirmasi -->
+                                <form action="{{ route('nasabah.destroy', $nasabah->nis) }}" method="POST" style="display:inline;" onsubmit="return confirmDelete()">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                </form>
                             </td>
                         </tr>
                     @empty
@@ -72,4 +79,10 @@
         +
     </a>
 </div>
+
+<script>
+function confirmDelete() {
+    return confirm('Anda yakin ingin menghapus nasabah ini?');
+}
+</script>
 @endsection
