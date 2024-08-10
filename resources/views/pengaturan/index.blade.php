@@ -41,6 +41,22 @@
                     @enderror
                 </div>
 
+                <div class="form-group">
+                    <label for="minimal_jumlah_saldo">Minimal Jumlah Saldo</label>
+                    <input type="number" name="minimal_jumlah_saldo" id="minimal_jumlah_saldo" class="form-control" value="{{ old('minimal_jumlah_saldo', $pengaturan->minimal_jumlah_saldo) }}" step="0.01">
+                    @error('minimal_jumlah_saldo')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="minimal_simpanan">Minimal Simpanan</label>
+                    <input type="number" name="minimal_simpanan" id="minimal_simpanan" class="form-control" value="{{ old('minimal_simpanan', $pengaturan->minimal_simpanan) }}" step="0.01">
+                    @error('minimal_simpanan')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>
         @else
@@ -48,4 +64,3 @@
         @endif
     </div>
 @endsection
-    

@@ -25,5 +25,7 @@ class PengaturanAdministrasi extends Model
         'biaya_penyimpanan',
         'administrasi_bulanan',
         'minimal_saldo_tarik',
+        'minimal_jumlah_saldo', 
+        'minimal_simpanan',     
     ];
 }

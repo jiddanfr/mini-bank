@@ -16,6 +16,8 @@ class PengaturanAdministrasiController extends Controller
                 'biaya_penyimpanan' => 0,
                 'administrasi_bulanan' => 0,
                 'minimal_saldo_tarik' => 0,
+                'minimal_jumlah_saldo' => 0, // Pastikan ini ditambahkan
+                'minimal_simpanan' => 0,      // Pastikan ini ditambahkan
             ]
         );
 
@@ -25,10 +27,12 @@ class PengaturanAdministrasiController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'biaya_penarikan' => 'required|numeric|min:0',
-            'biaya_penyimpanan' => 'required|numeric|min:0',
-            'administrasi_bulanan' => 'required|numeric|min:0',
-            'minimal_saldo_tarik' => 'required|numeric|min:0',
+            'biaya_penarikan' => 'required|integer|min:0',
+            'biaya_penyimpanan' => 'required|integer|min:0',
+            'administrasi_bulanan' => 'required|integer|min:0',
+            'minimal_saldo_tarik' => 'required|integer|min:0',
+            'minimal_jumlah_saldo' => 'required|integer|min:0', // Tambahkan validasi ini
+            'minimal_simpanan' => 'required|integer|min:0',      // Tambahkan validasi ini
         ]);
 
         // Ambil entri pengaturan administrasi yang ada
@@ -40,6 +44,8 @@ class PengaturanAdministrasiController extends Controller
             'biaya_penyimpanan',
             'administrasi_bulanan',
             'minimal_saldo_tarik',
+            'minimal_jumlah_saldo', // Tambahkan kolom ini
+            'minimal_simpanan',     // Tambahkan kolom ini
         ]));
 
         return redirect()->route('pengaturan.index')->with('success', 'Pengaturan berhasil diperbarui');

@@ -14,10 +14,10 @@
 <body>
     <!-- Header dengan navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="{{ url('/') }}">
+        <!-- <a class="navbar-brand" href="{{ url('/') }}">
             <img src="{{ asset('images/logo.jpg') }}" width="30" height="30" class="d-inline-block align-top" alt="Logo">
             appBank
-        </a>
+        </a> -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -54,10 +54,10 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer bg-dark text-white py-3 fixed-bottom">
+    <!-- <footer class="footer bg-dark text-white py-3 fixed-bottom">
         <div class="container">
             <p class="mb-0 text-center">© 2024 appBank - Aplikasi Mini Bank</p>
-        </div>
+        </div> -->
     </footer>
 
     <!-- Script JavaScript Bootstrap dari CDN -->

@@ -11,7 +11,7 @@ class NasabahController extends Controller
 {
     public function index()
     {
-        $nasabahs = Nasabah::all(); // Mengambil semua data nasabah
+        $nasabahs = Nasabah::paginate(10); 
         return view('nasabah.index', compact('nasabahs'));
     }
 
@@ -74,6 +74,21 @@ public function update(Request $request, $nis)
 
     // Redirect dengan pesan sukses
     return redirect()->route('nasabah.index')->with('success', 'Nasabah berhasil dihapus.');
+}
+public function search(Request $request)
+{
+    $query = Nasabah::query();
+
+    // Ambil parameter pencarian dari request
+    if ($request->has('search')) {
+        $searchTerm = $request->input('search');
+        $query->where('nis', 'LIKE', "%$searchTerm%")
+              ->orWhere('nama', 'LIKE', "%$searchTerm%");
+    }
+
+    $nasabahs = $query->paginate(10);
+
+    return view('nasabah.index', compact('nasabahs'));
 }
 
 }

@@ -20,7 +20,7 @@ Route::prefix('nasabah')->group(function () {
     Route::put('/{nis}', [NasabahController::class, 'update'])->name('nasabah.update');
     Route::delete('/{nis}', [NasabahController::class, 'destroy'])->name('nasabah.destroy');
     Route::get('/check-nis/{nis}', [NasabahController::class, 'checkNis']);
-    Route::get('/search-nasabah', [NasabahController::class, 'search'])->name('search-nasabah');
+    Route::get('/search-nasabah', [NasabahController::class, 'search'])->name('nasabah.search');
     Route::post('/import', [NasabahController::class, 'import'])->name('nasabah.import');
 });
 
@@ -42,5 +42,4 @@ Route::put('/pengaturan/update', [PengaturanAdministrasiController::class, 'upda
 Route::get('/rekapan', [RekapanController::class, 'index'])->name('rekapan.index');
 Route::get('/rekapan/export', [RekapanController::class, 'export'])->name('rekapan.export');
 
-// Rute untuk cetak aktivitas
-Route::get('/print-aktifitas/{id}', [SimpananController::class, 'printAktifitas'])->name('print-aktifitas');
+

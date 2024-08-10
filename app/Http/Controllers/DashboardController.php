@@ -19,16 +19,12 @@ class DashboardController extends Controller
     {
         $request->validate([
             'TxtNoRekening' => 'required|exists:nasabahs,nis', // Perbaiki nama tabel jika diperlukan
-            'TxtNominalSimpanan' => 'required|numeric',
+            'TxtNominalSimpanan' => 'required|numeric|min:0', // Tambahkan validasi minimal
         ]);
 
         DB::transaction(function() use ($request) {
             // Ambil data nasabah
-            $nasabah = Nasabah::where('nis', $request->TxtNoRekening)->first();
-
-            if (!$nasabah) {
-                throw new \Exception('Nasabah tidak ditemukan.');
-            }
+            $nasabah = Nasabah::where('nis', $request->TxtNoRekening)->firstOrFail(); // Menggunakan firstOrFail
 
             // Update saldo nasabah
             $nasabah->saldo_total += $request->TxtNominalSimpanan;
@@ -50,16 +46,12 @@ class DashboardController extends Controller
     {
         $request->validate([
             'TxtNoRekening' => 'required|exists:nasabahs,nis', // Perbaiki nama tabel jika diperlukan
-            'TxtNominalPenarikan' => 'required|numeric',
+            'TxtNominalPenarikan' => 'required|numeric|min:0', // Tambahkan validasi minimal
         ]);
 
         DB::transaction(function() use ($request) {
             // Ambil data nasabah
-            $nasabah = Nasabah::where('nis', $request->TxtNoRekening)->first();
-
-            if (!$nasabah) {
-                throw new \Exception('Nasabah tidak ditemukan.');
-            }
+            $nasabah = Nasabah::where('nis', $request->TxtNoRekening)->firstOrFail(); // Menggunakan firstOrFail
 
             // Periksa saldo
             if ($nasabah->saldo_total < $request->TxtNominalPenarikan) {

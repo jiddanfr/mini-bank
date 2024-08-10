@@ -9,19 +9,19 @@ class Aktifitas extends Model
 {
     use HasFactory;
 
-    protected $table = 'aktifitas'; // Pastikan tabel yang digunakan sesuai dengan nama tabel di database
+    protected $table = 'aktifitas';
 
     protected $fillable = [
         'nis',
+        'jenis_aktifitas',
         'jumlah',
         'tanggal',
-        'jenis_aktifitas',
-        'keterangan', 
+        'keterangan',
     ];
 
     protected $casts = [
-        'tanggal' => 'date', // Casting tanggal ke tipe date
-        'jumlah' => 'decimal:2', // Pastikan jumlah disimpan sebagai decimal jika diperlukan
+        'tanggal' => 'date',
+        'jumlah' => 'integer',
     ];
 
     public function nasabah()

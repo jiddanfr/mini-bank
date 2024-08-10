@@ -19,7 +19,9 @@
     </form>
 
     <!-- Unduh PDF -->
-    <a href="{{ route('activities.generatePdf') }}" class="btn btn-success mb-4">Unduh PDF</a>
+    @if($activities->count() > 0)
+        <a href="{{ route('activities.generatePdf') }}" class="btn btn-success mb-4">Unduh PDF</a>
+    @endif
 
     <!-- Tabel Aktivitas -->
     <table class="table table-bordered table-striped">
@@ -49,7 +51,6 @@
         </tbody>
     </table>
 
-    <!-- Pagination -->
-    {{ $activities->appends(request()->query())->links() }}
+    
 </div>
 @endsection

@@ -32,12 +32,17 @@ class PenarikanController extends Controller
                 return redirect()->back()->withErrors(['msg' => 'Pengaturan administrasi tidak ditemukan.']);
             }
 
+            // Periksa apakah jumlah penarikan memenuhi minimal penarikan
+            if ($validated['TxtNominalPenarikan'] < $pengaturan->minimal_saldo_tarik) {
+                return redirect()->back()->withErrors(['msg' => 'Jumlah penarikan tidak memenuhi batas minimal penarikan: ' . $pengaturan->minimal_saldo_tarik]);
+            }
+
             // Hitung total penarikan (jumlah yang ingin ditarik + biaya penarikan)
             $totalPenarikan = $validated['TxtNominalPenarikan'] + $pengaturan->biaya_penarikan;
 
             // Periksa saldo nasabah
-            if ($nasabah->saldo_total - $totalPenarikan < $pengaturan->minimal_saldo_tarik) {
-                return redirect()->back()->withErrors(['msg' => 'Saldo tidak cukup untuk penarikan. Minimal saldo yang harus ada setelah penarikan adalah '.$pengaturan->minimal_saldo_tarik]);
+            if ($nasabah->saldo_total - $totalPenarikan < $pengaturan->minimal_jumlah_saldo) {
+                return redirect()->back()->withErrors(['msg' => 'Saldo tidak cukup untuk penarikan. Minimal saldo yang harus ada setelah penarikan adalah ' . $pengaturan->minimal_jumlah_saldo]);
             }
 
             // Update saldo nasabah
@@ -64,4 +69,5 @@ class PenarikanController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Terjadi kesalahan saat menyimpan penarikan.']);
         }
     }
+    
 }
