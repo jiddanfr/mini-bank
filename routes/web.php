@@ -22,6 +22,7 @@ Route::prefix('nasabah')->group(function () {
     Route::get('/check-nis/{nis}', [NasabahController::class, 'checkNis']);
     Route::get('/search-nasabah', [NasabahController::class, 'search'])->name('nasabah.search');
     Route::post('/import', [NasabahController::class, 'import'])->name('nasabah.import');
+
 });
 
 // Rute untuk simpanan

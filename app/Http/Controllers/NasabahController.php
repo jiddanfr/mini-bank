@@ -9,11 +9,22 @@ use App\Imports\NasabahImport;
 
 class NasabahController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $nasabahs = Nasabah::paginate(10); 
-        return view('nasabah.index', compact('nasabahs'));
+        $kelas = $request->input('kelas');
+    
+        if ($kelas) {
+            $nasabahs = Nasabah::where('kelas', $kelas)->get(); // Ganti paginate dengan get()
+        } else {
+            $nasabahs = Nasabah::all(); // Ganti paginate dengan all()
+        }
+    
+        $kelasList = Nasabah::distinct()->pluck('kelas'); // Ambil daftar kelas yang unik
+    
+        return view('nasabah.index', compact('nasabahs', 'kelasList', 'kelas'));
     }
+    
+
 
     public function create()
     {
@@ -22,23 +33,37 @@ class NasabahController extends Controller
 
     public function store(Request $request)
     {
-        $nasabah = Nasabah::create($request->all());
+        $validatedData = $request->validate([
+            'nis' => 'required|unique:nasabahs|max:255',
+            'nama' => 'required|max:255',
+            'kelas' => 'required|max:255',
+            'saldo_total' => 'required|numeric',
+        ]);
+
+        Nasabah::create($validatedData);
+
         return redirect()->route('nasabah.index')->with('success', 'Nasabah berhasil ditambahkan.');
     }
 
     public function edit($nis)
-{
-    $nasabah = Nasabah::where('nis', $nis)->firstOrFail();
-    return view('nasabah.edit', compact('nasabah'));
-}
+    {
+        $nasabah = Nasabah::where('nis', $nis)->firstOrFail();
+        return view('nasabah.edit', compact('nasabah'));
+    }
 
-public function update(Request $request, $nis)
-{
-    $nasabah = Nasabah::where('nis', $nis)->firstOrFail();
-    $nasabah->update($request->all());
-    return redirect()->route('nasabah.index')->with('success', 'Data nasabah berhasil diperbarui.');
-}
+    public function update(Request $request, $nis)
+    {
+        $validatedData = $request->validate([
+            'nama' => 'required|max:255',
+            'kelas' => 'required|max:255',
+            'saldo_total' => 'required|numeric',
+        ]);
 
+        $nasabah = Nasabah::where('nis', $nis)->firstOrFail();
+        $nasabah->update($validatedData);
+
+        return redirect()->route('nasabah.index')->with('success', 'Data nasabah berhasil diperbarui.');
+    }
 
     public function checkNis($nis)
     {
@@ -59,34 +84,31 @@ public function update(Request $request, $nis)
             return redirect()->route('nasabah.index')->with('error', 'Terjadi kesalahan saat mengimport data.');
         }
     }
+
     public function destroy($nis)
-{
-    // Cari nasabah berdasarkan NIS
-    $nasabah = Nasabah::where('nis', $nis)->first();
-    
-    // Periksa apakah nasabah ditemukan
-    if (!$nasabah) {
-        return redirect()->route('nasabah.index')->with('error', 'Nasabah tidak ditemukan.');
+    {
+        $nasabah = Nasabah::where('nis', $nis)->first();
+        
+        if (!$nasabah) {
+            return redirect()->route('nasabah.index')->with('error', 'Nasabah tidak ditemukan.');
+        }
+
+        $nasabah->delete();
+
+        return redirect()->route('nasabah.index')->with('success', 'Nasabah berhasil dihapus.');
     }
 
-    // Hapus nasabah
-    $nasabah->delete();
-
-    // Redirect dengan pesan sukses
-    return redirect()->route('nasabah.index')->with('success', 'Nasabah berhasil dihapus.');
-}
-public function search(Request $request)
+    public function search(Request $request)
 {
     $query = Nasabah::query();
 
-    // Ambil parameter pencarian dari request
     if ($request->has('search')) {
         $searchTerm = $request->input('search');
         $query->where('nis', 'LIKE', "%$searchTerm%")
               ->orWhere('nama', 'LIKE', "%$searchTerm%");
     }
 
-    $nasabahs = $query->paginate(10);
+    $nasabahs = $query->get(); // Ganti paginate dengan get()
 
     return view('nasabah.index', compact('nasabahs'));
 }
