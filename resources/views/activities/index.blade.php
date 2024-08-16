@@ -51,6 +51,9 @@
         </tbody>
     </table>
 
-    
+     <!-- Menampilkan pagination dengan Bootstrap -->
+     <div class="d-flex justify-content-center">
+        {{ $activities->links('vendor.pagination.bootstrap-5') }}
+    </div>
 </div>
 @endsection

@@ -9,20 +9,28 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class ActivityController extends Controller
 {
     public function index(Request $request)
-    {
-        // Menambahkan pencarian jika ada parameter 'search'
-        $query = Aktifitas::query();
+{
+    // Membuat query dasar untuk model Aktifitas
+    $query = Aktifitas::query();
 
-        if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where('nis', 'like', "%$search%")
-                  ->orWhere('keterangan', 'like', "%$search%");
-        }
+    // Memeriksa apakah ada parameter 'search' yang diisi
+    if ($request->filled('search')) {
+        $search = $request->input('search');
 
-        $activities = $query->orderBy('tanggal', 'desc')->paginate(10);
-
-        return view('activities.index', compact('activities'));
+        // Menggunakan 'where' dengan 'orWhere' untuk pencarian pada kolom NIS dan keterangan
+        $query->where(function($q) use ($search) {
+            $q->where('nis', 'like', "%$search%")
+              ->orWhere('keterangan', 'like', "%$search%");
+        });
     }
+
+    // Mengambil data dengan urutan tanggal terbaru dan menggunakan paginasi
+    $activities = $query->orderBy('tanggal', 'desc')->paginate(10);
+
+    // Mengirimkan data ke view
+    return view('activities.index', compact('activities'));
+}
+
 
     public function generatePdf()
     {

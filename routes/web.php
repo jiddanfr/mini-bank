@@ -9,7 +9,7 @@ use App\Http\Controllers\PengaturanAdministrasiController;
 use App\Http\Controllers\RekapanController;
 
 // Rute untuk dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 // Rute untuk Nasabah
 Route::prefix('nasabah')->group(function () {

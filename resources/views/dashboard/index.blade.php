@@ -100,16 +100,22 @@
 
 <script>
 function formatCurrency(value) {
-    // Format nominal sebagai mata uang
     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(value);
 }
 
-function printSimpanan() {
-    // Ambil nilai dari input dan textarea
+// Fungsi untuk menyimpan dan mengelola indeks baris aktifitas
+function getActivityIndex(nis) {
+    const key = `activityIndex_${nis}`;
+    let index = parseInt(localStorage.getItem(key)) || 0;
+    index = (index % 20) + 1; // Sirkulasi antara 1 sampai 20
+    localStorage.setItem(key, index);
+    return index;
+}
+
+function printSimpanan(nis) {
     const nominalSimpanan = document.getElementById('nominal_simpanan').value;
     const keteranganSimpanan = document.getElementById('keterangan_simpanan').value;
 
-    // Cek apakah input kosong
     if (nominalSimpanan === '' || keteranganSimpanan === '') {
         Swal.fire({
             title: 'Error!',
@@ -117,10 +123,9 @@ function printSimpanan() {
             icon: 'error',
             confirmButtonText: 'OK'
         });
-        return; // Menghentikan eksekusi jika input kosong
+        return;
     }
 
-    // Validasi nominal
     const nominalValue = parseInt(nominalSimpanan.replace(/\D/g, ''));
     if (isNaN(nominalValue) || nominalValue <= 0) {
         Swal.fire({
@@ -129,34 +134,33 @@ function printSimpanan() {
             icon: 'error',
             confirmButtonText: 'OK'
         });
-        return; // Menghentikan eksekusi jika nominal tidak valid
+        return;
     }
 
-    // Ambil tanggal sekarang
     const tanggalSekarang = new Date().toLocaleDateString('id-ID', {
         year: 'numeric',
         month: 'numeric',
         day: 'numeric'
     });
 
-    // Format nominal
     const formattedNominal = formatCurrency(nominalSimpanan);
 
-    // Buat konten untuk dicetak
+    // Dapatkan indeks baris berdasarkan NIS
+    const activityIndex = getActivityIndex(nis);
+
     const printContent = `
-        <div style="font-size: 14px;">
-            <p>${tanggalSekarang} - ${formattedNominal} - ${keteranganSimpanan}</p>
+        <div style="font-size: 14px; position: absolute; top: ${activityIndex * 20}px;">
+            <p>${tanggalSekarang}&nbsp;&nbsp;${formattedNominal}&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;${keteranganSimpanan}</p>
         </div>
     `;
 
-    // Membuat jendela baru untuk mencetak
     const printWindow = window.open('', '_blank');
     printWindow.document.write(`
         <html>
         <head>
             <title>Print Simpanan</title>
             <style>
-                body { font-family: Arial, sans-serif; margin: 20px; }
+                body { font-family: Arial, sans-serif; margin: 20px; position: relative; height: 400px; }
             </style>
         </head>
         <body>
@@ -168,10 +172,8 @@ function printSimpanan() {
     printWindow.focus();
     printWindow.print();
 
-    // Setelah mencetak, submit form
     document.getElementById('simpanForm').submit();
 
-    // Notifikasi sukses
     Swal.fire({
         title: 'Success!',
         text: 'Simpan dan cetak berhasil!',
@@ -180,12 +182,10 @@ function printSimpanan() {
     });
 }
 
-function printPenarikan() {
-    // Ambil nilai dari input dan textarea
+function printPenarikan(nis) {
     const nominalPenarikan = document.getElementById('nominal_penarikan').value;
     const keteranganPenarikan = document.getElementById('keterangan_penarikan').value;
 
-    // Cek apakah input kosong
     if (nominalPenarikan === '' || keteranganPenarikan === '') {
         Swal.fire({
             title: 'Error!',
@@ -193,10 +193,9 @@ function printPenarikan() {
             icon: 'error',
             confirmButtonText: 'OK'
         });
-        return; // Menghentikan eksekusi jika input kosong
+        return;
     }
 
-    // Validasi nominal
     const nominalValue = parseInt(nominalPenarikan.replace(/\D/g, ''));
     if (isNaN(nominalValue) || nominalValue <= 0) {
         Swal.fire({
@@ -205,34 +204,33 @@ function printPenarikan() {
             icon: 'error',
             confirmButtonText: 'OK'
         });
-        return; // Menghentikan eksekusi jika nominal tidak valid
+        return;
     }
 
-    // Ambil tanggal sekarang
     const tanggalSekarang = new Date().toLocaleDateString('id-ID', {
         year: 'numeric',
         month: 'numeric',
         day: 'numeric'
     });
 
-    // Format nominal
     const formattedNominal = formatCurrency(nominalPenarikan);
 
-    // Buat konten untuk dicetak
+    // Dapatkan indeks baris berdasarkan NIS
+    const activityIndex = getActivityIndex(nis);
+
     const printContent = `
-        <div style="font-size: 14px;">
-            <p>${tanggalSekarang} - ${formattedNominal} - ${keteranganPenarikan}</p>
+        <div style="font-size: 14px; position: absolute; top: ${activityIndex * 20}px;">
+            <p>${tanggalSekarang}&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;${formattedNominal}&nbsp;&nbsp;${keteranganPenarikan}</p>
         </div>
     `;
 
-    // Membuat jendela baru untuk mencetak
     const printWindow = window.open('', '_blank');
     printWindow.document.write(`
         <html>
         <head>
             <title>Print Penarikan</title>
             <style>
-                body { font-family: Arial, sans-serif; margin: 20px; }
+                body { font-family: Arial, sans-serif; margin: 20px; position: relative; height: 400px; }
             </style>
         </head>
         <body>
@@ -244,10 +242,8 @@ function printPenarikan() {
     printWindow.focus();
     printWindow.print();
 
-    // Setelah mencetak, submit form
     document.getElementById('penarikanForm').submit();
 
-    // Notifikasi sukses
     Swal.fire({
         title: 'Success!',
         text: 'Penarikan berhasil!',
@@ -255,9 +251,8 @@ function printPenarikan() {
         confirmButtonText: 'OK'
     });
 }
-
-
 </script>
+
 
 <!-- Menambahkan SweetAlert2 script -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
