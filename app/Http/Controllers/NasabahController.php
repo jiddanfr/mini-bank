@@ -12,32 +12,37 @@ class NasabahController extends Controller
     public function index(Request $request)
     {
         $kelas = $request->input('kelas');
-    
+
         if ($kelas) {
             $nasabahs = Nasabah::where('kelas', $kelas)->get(); // Ganti paginate dengan get()
         } else {
             $nasabahs = Nasabah::all(); // Ganti paginate dengan all()
         }
-    
+
         $kelasList = Nasabah::distinct()->pluck('kelas'); // Ambil daftar kelas yang unik
-    
+
         return view('nasabah.index', compact('nasabahs', 'kelasList', 'kelas'));
     }
-    
+
 
 
     public function create()
     {
-        return view('nasabah.create');
+        return view('nasabah.form');
     }
 
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'nis' => 'required|unique:nasabahs|max:255',
+            'nis' => 'required|unique:datanasabah|max:255',
             'nama' => 'required|max:255',
             'kelas' => 'required|max:255',
             'saldo_total' => 'required|numeric',
+        ], [], [
+            'nis' => 'NIS',
+            'nama' => 'Nama',
+            'kelas' => 'Kelas',
+            'saldo_total' => 'Saldo Total',
         ]);
 
         Nasabah::create($validatedData);
@@ -47,8 +52,8 @@ class NasabahController extends Controller
 
     public function edit($nis)
     {
-        $nasabah = Nasabah::where('nis', $nis)->firstOrFail();
-        return view('nasabah.edit', compact('nasabah'));
+        $post = Nasabah::where('nis', $nis)->firstOrFail();
+        return view('nasabah.form', compact('post'));
     }
 
     public function update(Request $request, $nis)
@@ -57,6 +62,10 @@ class NasabahController extends Controller
             'nama' => 'required|max:255',
             'kelas' => 'required|max:255',
             'saldo_total' => 'required|numeric',
+        ], [], [
+            'nama' => 'Nama',
+            'kelas' => 'Kelas',
+            'saldo_total' => 'Saldo Total',
         ]);
 
         $nasabah = Nasabah::where('nis', $nis)->firstOrFail();
@@ -88,7 +97,7 @@ class NasabahController extends Controller
     public function destroy($nis)
     {
         $nasabah = Nasabah::where('nis', $nis)->first();
-        
+
         if (!$nasabah) {
             return redirect()->route('nasabah.index')->with('error', 'Nasabah tidak ditemukan.');
         }

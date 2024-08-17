@@ -33,6 +33,13 @@ class PengaturanAdministrasiController extends Controller
             'minimal_saldo_tarik' => 'required|integer|min:0',
             'minimal_jumlah_saldo' => 'required|integer|min:0', // Tambahkan validasi ini
             'minimal_simpanan' => 'required|integer|min:0',      // Tambahkan validasi ini
+        ], [], [
+            'biaya_penarikan' => 'Biaya penarikan',
+            'biaya_penyimpanan' => 'Biaya penyimpanan',
+            'administrasi_bulanan' => 'Biaya administrasi bulanan',
+            'minimal_saldo_tarik' => 'Minimal saldo untuk tarik',
+            'minimal_jumlah_saldo' => 'Minimal jumlah saldo', // Tambahkan pesan ini
+            'minimal_simpanan' => 'Minimal simpanan',         // Tambahkan pesan ini
         ]);
 
         // Ambil entri pengaturan administrasi yang ada

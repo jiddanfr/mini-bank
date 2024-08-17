@@ -1,1 +1,18 @@
-@import '~bootstrap/scss/bootstrap';
+// Fonts
+// @import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+
+// Variables
+// @import 'variables';
+
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import '../css/dataTables.bootstrap5.min.css';
+@import '../css/fixedColumns.bootstrap5.min.css';
+@import '../css/custom.css';
+// flatpickr
+@import 'flatpickr/dist/flatpickr.css';
+
+// select2
+// @import 'select2/dist/css/select2.css';
+@import '../css/notyf.min.css';

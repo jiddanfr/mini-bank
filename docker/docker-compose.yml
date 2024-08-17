@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+    minibank:
+        image: bagusp/minibank-laravel:latest
+        container_name: minibank-app
+        working_dir: /var/www/html
+        # restart: unless-stopped
+        volumes:
+            - ../:/var/www/html
+        ports:
+            - 8000:80
+        networks:
+            - php-network
+
+networks:
+    php-network:
+        driver: bridge
+        name: database_net
+        external: true

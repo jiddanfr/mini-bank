@@ -22,7 +22,7 @@ class RekapanController extends Controller
                 'datanasabah.nama',
                 'datanasabah.kelas',
                 DB::raw("GROUP_CONCAT(CONCAT(aktifitas.jenis_aktifitas, ': ', FORMAT(aktifitas.jumlah, 2), ' (', DATE_FORMAT(aktifitas.tanggal, '%Y-%m-%d'), ')') SEPARATOR '; ') AS aktivitas_details"),
-                DB::raw('FORMAT(datanasabah.saldo_total, 2) AS saldo_total')
+                DB::raw('datanasabah.saldo_total AS saldo_total'),
             )
             ->groupBy('datanasabah.nis', 'datanasabah.nama', 'datanasabah.kelas', 'datanasabah.saldo_total')
             ->orderByRaw('FIELD(datanasabah.kelas, "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X")') // Mengurutkan berdasarkan kelas dalam angka Romawi
