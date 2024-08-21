@@ -112,12 +112,13 @@
 
 @push('script')
     <script>
-        var biaya_penarikan = '{{ old('biaya_penarikan', $pengaturan->biaya_penarikan) }}';
-        var biaya_penyimpanan = '{{ old('biaya_penyimpanan', $pengaturan->biaya_penyimpanan) }}';
-        var administrasi_bulanan = '{{ old('administrasi_bulanan', $pengaturan->administrasi_bulanan) }}';
-        var minimal_saldo_tarik = '{{ old('minimal_saldo_tarik', $pengaturan->minimal_saldo_tarik) }}';
-        var minimal_jumlah_saldo = '{{ old('minimal_jumlah_saldo', $pengaturan->minimal_jumlah_saldo) }}';
-        var minimal_simpanan = '{{ old('minimal_simpanan', $pengaturan->minimal_simpanan) }}';
+        var biaya_penarikan = "{{ old('biaya_penarikan', $pengaturan->biaya_penarikan) }}";
+var biaya_penyimpanan = "{{ old('biaya_penyimpanan', $pengaturan->biaya_penyimpanan) }}";
+var administrasi_bulanan = "{{ old('administrasi_bulanan', $pengaturan->administrasi_bulanan) }}";
+var minimal_saldo_tarik = "{{ old('minimal_saldo_tarik', $pengaturan->minimal_saldo_tarik) }}";
+var minimal_jumlah_saldo = "{{ old('minimal_jumlah_saldo', $pengaturan->minimal_jumlah_saldo) }}";
+var minimal_simpanan = "{{ old('minimal_simpanan', $pengaturan->minimal_simpanan) }}";
+
 
         $(document).ready(function() {
             $('#biaya_penarikan').val(rupiah(biaya_penarikan, false));

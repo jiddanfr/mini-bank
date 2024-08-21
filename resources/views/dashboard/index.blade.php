@@ -24,6 +24,7 @@
                                 <label for="no_rekening">Nomor Rekening</label>
                                 <input type="text" name="TxtNoRekening" id="no_rekening" class="form-control" required
                                     placeholder="Masukkan NIS">
+                                    <div id="result"></div>
                             </div>
 
                             <div class="mb-3">
@@ -62,8 +63,9 @@
 
                             <div class="mb-3">
                                 <label for="no_rekening_penarikan">Nomor Rekening</label>
-                                <input type="text" name="TxtNoRekening" id="no_rekening_penarikan" class="form-control"
+                                <input type="text" name="TxtNoRekeningPenarikan" id="no_rekening_penarikan" class="form-control"
                                     required placeholder="Masukkan NIS">
+                                <div id="result2"></div>
                             </div>
 
                             <div class="mb-3">

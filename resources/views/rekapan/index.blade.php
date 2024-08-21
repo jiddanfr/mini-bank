@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <div class="card shadow rouded-3">
+        <div class="card shadow rounded-3">
             <div class="card-body">
                 <table class="table table-striped" id="dt">
                     <thead>
@@ -24,7 +24,6 @@
                             <th>Kelas</th>
                             <th>Aktivitas</th>
                             <th>Saldo Total</th>
-                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,13 +33,14 @@
                                 <td>{{ $aktivitas->nis }}</td>
                                 <td>{{ $aktivitas->nama }}</td>
                                 <td>{{ $aktivitas->kelas }}</td>
-                                <td>{{ $aktivitas->aktivitas_details }}</td>
-                                <td>{{ rupiah($aktivitas->saldo_total) }}</td>
                                 <td>
-                                    <a href="#" class="btn btn-info btn-sm">
-                                        <i class="bi bi-eye icon-bg"></i> Lihat Riwayat
-                                    </a>
+                                    @php
+                                        $aktivitasDetails = explode('|', $aktivitas->aktivitas_details);
+                                        $lastThreeAktivitas = array_slice($aktivitasDetails, -3);
+                                    @endphp
+                                    {!! implode('<br>', $lastThreeAktivitas) !!}
                                 </td>
+                                <td>{{ rupiah($aktivitas->saldo_total) }}</td>
                             </tr>
                         @endforeach
                     </tbody>

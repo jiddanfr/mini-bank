@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NasabahController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SimpananController;
+use App\Http\Controllers\AmbilDataNasabahController;
 use App\Http\Controllers\PenarikanController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\PengaturanAdministrasiController;
@@ -26,6 +27,7 @@ Route::prefix('nasabah')->group(function () {
 
 // Rute untuk simpanan
 Route::post('/simpan-simpanan', [SimpananController::class, 'simpanSimpanan'])->name('simpan-simpanan');
+Route::post('/ambil-data-nasabah', [AmbilDataNasabahController::class, 'ambilDataNasabah'])->name('ambil-data-nasabah');
 
 // Rute untuk penarikan
 Route::post('/simpan-penarikan', [PenarikanController::class, 'simpanPenarikan'])->name('simpan-penarikan');
@@ -41,5 +43,7 @@ Route::put('/pengaturan/update', [PengaturanAdministrasiController::class, 'upda
 // Rute untuk rekapan
 Route::get('/rekapan', [RekapanController::class, 'index'])->name('rekapan.index');
 Route::get('/rekapan/export', [RekapanController::class, 'export'])->name('rekapan.export');
+Route::get('/rekapan/aktivitas/{nis}', [RekapanController::class, 'getAktivitas']);
+
 
 

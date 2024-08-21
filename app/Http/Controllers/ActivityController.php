@@ -25,7 +25,7 @@ class ActivityController extends Controller
         }
 
         // Mengambil data dengan urutan tanggal terbaru dan menggunakan paginasi
-        $activities = $query->orderBy('tanggal', 'desc')->paginate(10);
+        $activities = $query->orderBy('id', 'desc')->paginate(10);
 
         // Mengirimkan data ke view
         return view('activities.index', compact('activities'));
@@ -34,7 +34,7 @@ class ActivityController extends Controller
 
     public function generatePdf()
     {
-        $activities = Aktifitas::orderBy('tanggal', 'desc')->get();
+        $activities = Aktifitas::orderBy('id', 'desc')->get();
         $pdf = Pdf::loadView('pdf.activities', compact('activities'));
         return $pdf->download('aktivitas.pdf');
     }

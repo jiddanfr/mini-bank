@@ -8,7 +8,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Aplikasi Mini Bank') }}</title>
+    <title>Aplikasi Tabungan Siswa - SD INOVATIF Ma'arif Jogosari Pandaan</title>
+    <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png">
 
     @vite(['resources/sass/app.scss', 'resources/css/app.css', 'resources/js/app.js'])
 
