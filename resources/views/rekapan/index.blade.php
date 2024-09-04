@@ -4,13 +4,13 @@
 
 @section('content')
     <div class="container">
-        <div class="d-flex justify-content-between align-items-center">
-            <h2 class="mb-4">Rekapan Aktivitas</h2>
-            <div class="d-flex gap-2">
-                <a href="{{ route('rekapan.export') }}" class="btn btn-primary btn-sm" style="padding-right: 15px;">
-                    <i class="bi bi-plus icon-bg"></i> Download Rekapan
-                </a>
-            </div>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Rekapan Aktivitas</h2>
+            <!-- Form untuk Simpan dan Unduh Rekapan Tahunan -->
+            <form action="{{ route('rekapan.storeYearly') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-primary">Simpan dan Unduh Rekapan Tahunan</button>
+            </form>
         </div>
 
         <div class="card shadow rounded-3">
@@ -22,28 +22,30 @@
                             <th>NIS</th>
                             <th>Nama</th>
                             <th>Kelas</th>
+                            <th>Saldo Awal</th>
+                            <th>Saldo Akhir</th>
                             <th>Aktivitas</th>
-                            <th>Saldo Total</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($data as $index => $aktivitas)
-                            <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td>{{ $aktivitas->nis }}</td>
-                                <td>{{ $aktivitas->nama }}</td>
-                                <td>{{ $aktivitas->kelas }}</td>
-                                <td>
-                                    @php
-                                        $aktivitasDetails = explode('|', $aktivitas->aktivitas_details);
-                                        $lastThreeAktivitas = array_slice($aktivitasDetails, -3);
-                                    @endphp
-                                    {!! implode('<br>', $lastThreeAktivitas) !!}
-                                </td>
-                                <td>{{ rupiah($aktivitas->saldo_total) }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
+        @foreach ($data as $key => $nasabah)
+            <tr>
+                <td>{{ $key + 1 }}</td>
+                <td>{{ $nasabah->nis }}</td>
+                <td>{{ $nasabah->nama }}</td>
+                <td>{{ $nasabah->kelas }}</td>
+                <td>{{ rupiah($nasabah->saldo_awal) }}</td>
+                <td>{{ rupiah($nasabah->saldo_akhir) }}</td>
+                <td>
+                    @if (!empty($nasabah->aktivitas_details))
+                        {!! str_replace('|', '<br>', $nasabah->aktivitas_details) !!}
+                    @else
+                        -
+                    @endif
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
                 </table>
             </div>
         </div>

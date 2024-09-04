@@ -8,6 +8,7 @@ use App\Http\Controllers\PenarikanController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\PengaturanAdministrasiController;
 use App\Http\Controllers\RekapanController;
+use App\Http\Controllers\RiwayatRekapanController;
 
 // Rute untuk dashboard
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -44,6 +45,7 @@ Route::put('/pengaturan/update', [PengaturanAdministrasiController::class, 'upda
 Route::get('/rekapan', [RekapanController::class, 'index'])->name('rekapan.index');
 Route::get('/rekapan/export', [RekapanController::class, 'export'])->name('rekapan.export');
 Route::get('/rekapan/aktivitas/{nis}', [RekapanController::class, 'getAktivitas']);
+Route::post('/rekapan/store-yearly', [RekapanController::class, 'storeYearlyRekapan'])->name('rekapan.storeYearly');
 
-
-
+// Rute untuk riwayat rekapan
+Route::get('/riwayat-rekapan', [RiwayatRekapanController::class, 'index'])->name('riwayat_rekapan.index');

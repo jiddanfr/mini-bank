@@ -39,6 +39,9 @@
                 <li class="nav-item {{ request()->routeIs('pengaturan.*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('pengaturan.index') }}">Pengaturan</a>
                 </li>
+                <!-- <li class="nav-item {{ request()->routeIs('riwayat_rekapan.index') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('riwayat_rekapan.index') }}">Riwayat Rekapan</a>
+                </li>  -->
             </ul>
         </div>
     </div>

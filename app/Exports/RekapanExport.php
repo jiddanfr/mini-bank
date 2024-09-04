@@ -12,7 +12,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
-class RekapanExport implements FromQuery, WithHeadings, WithMapping, WithChunkReading, WithStyles
+class RekapanExport implements FromQuery, WithHeadings, WithMapping, WithStyles
 {
     public function query()
     {
@@ -26,7 +26,7 @@ class RekapanExport implements FromQuery, WithHeadings, WithMapping, WithChunkRe
                 DB::raw('FORMAT(datanasabah.saldo_total, 2) AS saldo_total')
             )
             ->groupBy('datanasabah.nis', 'datanasabah.nama', 'datanasabah.kelas', 'datanasabah.saldo_total')
-            ->orderByRaw('FIELD(datanasabah.kelas, "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X")'); // Mengurutkan berdasarkan kelas
+            ->orderByRaw('FIELD(datanasabah.kelas, "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X")');
     }
 
     public function headings(): array
@@ -79,13 +79,5 @@ class RekapanExport implements FromQuery, WithHeadings, WithMapping, WithChunkRe
         return [];
     }
 
-    /**
-     * Mengatur ukuran chunk untuk mengurangi penggunaan memori.
-     * 
-     * @return int
-     */
-    public function chunkSize(): int
-    {
-        return 1000; // Mengambil 1000 baris per chunk
-    }
+    
 }
