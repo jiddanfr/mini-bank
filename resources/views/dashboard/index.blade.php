@@ -15,35 +15,34 @@
                     </div>
 
                     <div class="card-body">
-                        <form id="simpanForm" method="post" action="{{ route('simpan-simpanan') }}">
-                            @csrf
+                    <form id="simpanForm" method="post" action="{{ route('simpan-simpanan') }}">
+    @csrf
 
-                            <input type="hidden" name="TxtNominalSimpanan">
+    <input type="hidden" name="TxtNominalSimpanan">
 
-                            <div class="mb-3">
-                                <label for="no_rekening">Nomor Rekening</label>
-                                <input type="text" name="TxtNoRekening" id="no_rekening" class="form-control" required
-                                    placeholder="Masukkan NIS">
-                                    <div id="result"></div>
-                            </div>
+    <div class="mb-3">
+        <label for="no_rekening">Nomor Rekening</label>
+        <input type="text" name="TxtNoRekening" id="no_rekening" class="form-control" required placeholder="Masukkan NIS">
+        <div id="result"></div>
+    </div>
 
-                            <div class="mb-3">
-                                <label for="nominal_simpanan">Nominal Simpanan (Rp)</label>
-                                <input type="text" id="nominal_simpanan" class="form-control currency" autocomplete="off"
-                                    required>
-                            </div>
+    <div class="mb-3">
+        <label for="nominal_simpanan">Nominal Simpanan (Rp)</label>
+        <input type="text" id="nominal_simpanan" class="form-control currency" autocomplete="off" required>
+    </div>
 
-                            <div class="mb-3">
-                                <label for="keterangan_simpanan">Keterangan</label>
-                                <textarea name="keterangan" id="keterangan_simpanan" class="form-control" rows="3" required></textarea>
-                            </div>
+    <div class="mb-3">
+        <label for="keterangan_simpanan">Keterangan</label>
+        <textarea name="keterangan" id="keterangan_simpanan" class="form-control" rows="3" required></textarea>
+    </div>
 
-                            <div class="mt-4 text-center">
-                                <button type="button" class="btn btn-primary btn-sm w-50" onclick="printSimpanan()">
-                                    Print & Submit
-                                </button>
-                            </div>
-                        </form>
+    <div class="mt-4 text-center">
+        <button type="button" class="btn btn-primary btn-sm w-50" onclick="printSimpanan()">
+            Print & Submit
+        </button>
+    </div>
+</form>
+
                     </div>
                 </div>
             </div>
@@ -56,35 +55,32 @@
                     </div>
 
                     <div class="card-body">
-                        <form id="penarikanForm" method="post" action="{{ route('simpan-penarikan') }}">
-                            @csrf
+                    <form id="penarikanForm" method="post" action="{{ route('simpan-penarikan') }}">
+    @csrf
 
-                            <input type="hidden" name="TxtNominalPenarikan">
+    <input type="hidden" name="TxtNominalPenarikan">
 
-                            <div class="mb-3">
-                                <label for="no_rekening_penarikan">Nomor Rekening</label>
-                                <input type="text" name="TxtNoRekeningPenarikan" id="no_rekening_penarikan" class="form-control"
-                                    required placeholder="Masukkan NIS">
-                                <div id="result2"></div>
-                            </div>
+    <div class="mb-3">
+        <label for="no_rekening_penarikan">Nomor Rekening</label>
+        <input type="text" name="TxtNoRekeningPenarikan" id="no_rekening_penarikan" class="form-control" required placeholder="Masukkan NIS">
+        <div id="result2"></div>
+    </div>
 
-                            <div class="mb-3">
-                                <label for="nominal_penarikan">Nominal Penarikan (Rp)</label>
-                                <input type="text" id="nominal_penarikan" class="form-control currency"
-                                    autocomplete="off" required>
-                            </div>
+    <div class="mb-3">
+        <label for="nominal_penarikan">Nominal Penarikan (Rp)</label>
+        <input type="text" id="nominal_penarikan" class="form-control currency" autocomplete="off" required>
+    </div>
 
-                            <div class="mb-3">
-                                <label for="keterangan_penarikan">Keterangan</label>
-                                <textarea name="keterangan" id="keterangan_penarikan" class="form-control" rows="3" required></textarea>
-                            </div>
+    <div class="mb-3">
+        <label for="keterangan_penarikan">Keterangan</label>
+        <textarea name="keterangan" id="keterangan_penarikan" class="form-control" rows="3" required></textarea>
+    </div>
 
-                            <div class="mt-4 text-center">
-                                <button type="button" class="btn btn-danger btn-sm w-50" onclick="printPenarikan()">Print &
-                                    Submit
-                                </button>
-                            </div>
-                        </form>
+    <div class="mt-4 text-center">
+        <button type="button" class="btn btn-danger btn-sm w-50" onclick="printPenarikan()">Print & Submit</button>
+    </div>
+</form>
+
                     </div>
                 </div>
             </div>

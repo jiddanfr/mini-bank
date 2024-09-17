@@ -1,5 +1,4 @@
-function printSimpanan() {
-    var nomorRekening = $('#nomor_rekening').val();
+function printSimpanan(nis) {
     var nominalSimpanan = $('#nominal_simpanan').val();
     nominalSimpanan = replaceDot(nominalSimpanan);
 
@@ -48,14 +47,26 @@ function printSimpanan() {
                 notyf.open({ type: 'success', message: response.message });
 
                 const tanggalSekarang = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'numeric', day: 'numeric' });
-                const formattedNominal = formatCurrency(nominalValue);
-                const saldoTotal = formatCurrency(response.saldo_total); // Saldo total dari respons
+                const formattedNominal = (nominalValue);
+                const saldoTotal = (response.saldo_total); // Saldo total dari respons
+                const activityIndex = getActivityIndex(nis);
 
                 const printContent = `
-                    <div style="font-size: 14px; position: absolute;">
-                        <p>${tanggalSekarang}&nbsp;&nbsp;${formattedNominal}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${saldoTotal}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${keteranganSimpanan}</p>
-                    </div>
-                `;
+    <div style="font-size: 12px; position: absolute; top: ${activityIndex * 20}px;">
+        <table style="width: 100%; border-collapse: collapse; background-color: rgba(255, 255, 255, 0.5);">            
+            <tbody>
+                <tr>
+                     <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">${tanggalSekarang}</td>
+                     
+                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">Rp.${formattedNominal}</td>
+                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">-</td>
+                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">Rp.${saldoTotal}</td>
+                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">${keteranganSimpanan}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+`;
 
                 var bodyContent = $('body').html();
                 $('body').html(`
@@ -101,6 +112,10 @@ function printPenarikan(nis) {
 
     var keteranganPenarikan = $('#keterangan_penarikan').val();
 
+    // Tambahkan console.log untuk memeriksa nilai input
+    console.log("Nominal Penarikan (raw):", nominalPenarikan);
+    console.log("Keterangan Penarikan:", keteranganPenarikan);
+
     if (nominalPenarikan === '' || keteranganPenarikan === '') {
         const notyf = new Notyf({
             position: { x: 'right', y: 'top' },
@@ -111,6 +126,8 @@ function printPenarikan(nis) {
     }
 
     const nominalValue = parseInt(nominalPenarikan.replace(/\D/g, ''), 10);
+    console.log("Nominal Value (parsed):", nominalValue);
+
     if (isNaN(nominalValue) || nominalValue <= 0) {
         const notyf = new Notyf({
             position: { x: 'right', y: 'top' },
@@ -131,7 +148,9 @@ function printPenarikan(nis) {
             keterangan: keteranganPenarikan
         },
         success: function(response) {
-            if(response.status === 'success') {
+            console.log("AJAX Response:", response);
+
+            if (response.status === 'success') {
                 const notyf = new Notyf({
                     position: { x: 'right', y: 'top' },
                     types: [{ type: 'info', background: '#0948B3', icon: { className: 'bi bi-check-circle-fill', tagName: 'span', color: '#fff' }, dismissible: false }]
@@ -141,15 +160,29 @@ function printPenarikan(nis) {
                 $('#penarikanForm')[0].reset();
 
                 const tanggalSekarang = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'numeric', day: 'numeric' });
-                const formattedNominal = formatCurrency(nominalValue);
-                const saldoTotal = formatCurrency(response.saldo_total); // Saldo total dari respons
+                const formattedNominal = nominalValue;
+                const saldoTotal = response.saldo_total; 
 
-                const activityIndex = response.aktivitas_count;
+                const activityIndex = getActivityIndex(nis);
+                console.log("Posisi penarikan: ", activityIndex);
+
+
                 const printContent = `
-                    <div style="font-size: 14px; position: absolute; top: ${activityIndex * 20}px;">
-                        <p>${tanggalSekarang}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${formattedNominal}&nbsp;&nbsp;${saldoTotal}&nbsp;&nbsp;${keteranganPenarikan}</p>
-                    </div>
-                `;
+    <div style="font-size: 12px; position: absolute; top: ${activityIndex * 20}px;">
+        <table style="width: 100%; border-collapse: collapse; background-color: rgba(255, 255, 255, 0.5);">            
+            <tbody>
+                <tr>
+                     <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">${tanggalSekarang}</td>
+                     <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">-</td>
+                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">Rp.${formattedNominal}</td>
+                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">Rp.${saldoTotal}</td>
+                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">${keteranganPenarikan}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+`;
+
 
                 var bodyContent = $('body').html();
                 $('body').html(`
@@ -182,6 +215,7 @@ function printPenarikan(nis) {
             $.each(errors, function(key, value) {
                 errorMessage += '- ' + value[0] + '\n';
             });
+            console.log("AJAX Error:", errorMessage);
             alert(errorMessage);
         }
     });
@@ -189,17 +223,36 @@ function printPenarikan(nis) {
 
 
 
-function formatCurrency(value) {
-    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(value);
-}
+
 
 function getActivityIndex(nis) {
     const key = `activityIndex_${nis}`;
-    let index = parseInt(localStorage.getItem(key), 10) || 0;
-    index = (index % 20) + 1; // Sirkulasi antara 1 sampai 20
+    let index = parseInt(localStorage.getItem(key), 10);
+
+    // Jika index tidak valid (NaN atau undefined), atur ke 0
+    if (isNaN(index) || index < 0) {
+        index = 0;
+    }
+
+    // Tambahkan 1 ke indeks
+    index += 1;
+
+    // Jika indeks melebihi 30, kembali ke 1
+    if (index > 30) {
+        index = 1;
+    }
+
+    // Simpan nilai baru ke localStorage
     localStorage.setItem(key, index);
+
+    // Tambahkan console.log untuk melihat index saat ini
+    console.log("Activity Index saat ini: ", index);
+    
     return index;
 }
+
+
+
 
 function replaceDot(value) {
     return value.replace(/\./g, '');

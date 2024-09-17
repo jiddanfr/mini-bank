@@ -138,13 +138,19 @@ if (!function_exists('hitung_mundur')) {
 if (!function_exists('rupiah')) {
     function rupiah($angka, $withRp = true)
     {
+        // Pastikan $angka adalah angka yang valid (float atau integer)
+        $angka = is_numeric($angka) ? floatval($angka) : 0;
+
         if ($angka == 0) {
             return 'Rp -';
         }
+
+        // Format angka ke dalam format mata uang
         $hasil_rupiah = ($withRp ? "Rp " : "") . number_format($angka, 0, ',', '.');
         return $hasil_rupiah;
     }
 }
+
 
 if (!function_exists('hp')) {
     function hp($nohp)

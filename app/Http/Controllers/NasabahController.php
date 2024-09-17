@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Nasabah;
 use Illuminate\Http\Request;
+use App\Models\Nasabah;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\NasabahImport;
 
@@ -12,19 +12,18 @@ class NasabahController extends Controller
     public function index(Request $request)
     {
         $kelas = $request->input('kelas');
+        $query = Nasabah::query();
 
         if ($kelas) {
-            $nasabahs = Nasabah::where('kelas', $kelas)->get(); // Ganti paginate dengan get()
-        } else {
-            $nasabahs = Nasabah::all(); // Ganti paginate dengan all()
+            $query->where('kelas', $kelas);
         }
+
+        $nasabahs = $query->get(); // Menggunakan get() untuk menampilkan data
 
         $kelasList = Nasabah::distinct()->pluck('kelas'); // Ambil daftar kelas yang unik
 
         return view('nasabah.index', compact('nasabahs', 'kelasList', 'kelas'));
     }
-
-
 
     public function create()
     {
@@ -52,8 +51,8 @@ class NasabahController extends Controller
 
     public function edit($nis)
     {
-        $post = Nasabah::where('nis', $nis)->firstOrFail();
-        return view('nasabah.form', compact('post'));
+        $nasabah = Nasabah::where('nis', $nis)->firstOrFail();
+        return view('nasabah.form', compact('nasabah'));
     }
 
     public function update(Request $request, $nis)
@@ -96,11 +95,7 @@ class NasabahController extends Controller
 
     public function destroy($nis)
     {
-        $nasabah = Nasabah::where('nis', $nis)->first();
-
-        if (!$nasabah) {
-            return redirect()->route('nasabah.index')->with('error', 'Nasabah tidak ditemukan.');
-        }
+        $nasabah = Nasabah::where('nis', $nis)->firstOrFail();
 
         $nasabah->delete();
 
@@ -108,18 +103,17 @@ class NasabahController extends Controller
     }
 
     public function search(Request $request)
-{
-    $query = Nasabah::query();
+    {
+        $query = Nasabah::query();
 
-    if ($request->has('search')) {
-        $searchTerm = $request->input('search');
-        $query->where('nis', 'LIKE', "%$searchTerm%")
-              ->orWhere('nama', 'LIKE', "%$searchTerm%");
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+            $query->where('nis', 'LIKE', "%$searchTerm%")
+                  ->orWhere('nama', 'LIKE', "%$searchTerm%");
+        }
+
+        $nasabahs = $query->get(); // Menggunakan get() untuk menampilkan data
+
+        return view('nasabah.index', compact('nasabahs'));
     }
-
-    $nasabahs = $query->get(); // Ganti paginate dengan get()
-
-    return view('nasabah.index', compact('nasabahs'));
-}
-
 }

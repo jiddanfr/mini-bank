@@ -6,11 +6,7 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
             <h2 class="mb-4">Data Aktivitas</h2>
-            <div class="d-flex gap-2">
-                <a href="{{ route('activities.generatePdf') }}" class="btn btn-success btn-sm" style="padding-right: 15px;">
-                    <i class="bi bi-file-earmark-pdf icon-bg"></i> Unduh PDF
-                </a>
-            </div>
+            
         </div>
 
         <div class="card rounded-3 shadow-sm mb-4">

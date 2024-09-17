@@ -7,6 +7,7 @@ use App\Models\Nasabah;
 use App\Models\Aktifitas;
 use App\Models\PengaturanAdministrasi;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SimpananController extends Controller
 {
@@ -42,6 +43,9 @@ class SimpananController extends Controller
     
             // Hitung total simpanan (jumlah yang disimpan - biaya penyimpanan)
             $totalSimpanan = $validated['TxtNominalSimpanan'] - $pengaturan->biaya_penyimpanan;
+            if ($totalSimpanan <= 0) {
+                return response()->json(['status' => 'error', 'message' => 'Total simpanan setelah biaya penyimpanan tidak boleh kurang dari atau sama dengan nol.']);
+            }
     
             // Update saldo nasabah dengan nominal simpanan
             $nasabah->saldo_total += $totalSimpanan;
@@ -75,9 +79,11 @@ class SimpananController extends Controller
         } catch (\Exception $e) {
             // Rollback transaksi jika terjadi kesalahan
             DB::rollBack();
+            
+            // Log kesalahan
+            Log::error('Kesalahan saat menyimpan simpanan: ' . $e->getMessage());
+
             return response()->json(['status' => 'error', 'message' => 'Terjadi kesalahan saat menyimpan simpanan.']);
         }
     }
-    
-
 }

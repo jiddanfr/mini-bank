@@ -14,14 +14,20 @@ class Nasabah extends Model
 
     protected $fillable = ['nis', 'nama', 'kelas', 'saldo_total'];
 
-    // Casting jika diperlukan, misalnya untuk saldo_total sebagai integer
-    protected $casts = [
-        'saldo_total' => 'integer',
-    ];
 
-    // Relasi dengan PengaturanAdministrasi
-    public function pengaturanAdministrasi()
+   
+
+   
+    // Scope untuk memfilter nasabah berdasarkan kelas
+    public function scopeByKelas($query, $kelas)
     {
-        return $this->hasOne(PengaturanAdministrasi::class, 'nis', 'nis');
+        return $query->where('kelas', $kelas);
+    }
+
+    // Scope untuk mencari nasabah berdasarkan NIS atau Nama
+    public function scopeSearch($query, $searchTerm)
+    {
+        return $query->where('nis', 'LIKE', "%$searchTerm%")
+                     ->orWhere('nama', 'LIKE', "%$searchTerm%");
     }
 }
