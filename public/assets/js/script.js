@@ -52,20 +52,19 @@ function printSimpanan(nis) {
                 const activityIndex = getActivityIndex(nis);
 
                 const printContent = `
-    <div style="font-size: 12px; position: absolute; top: ${activityIndex * 20}px;">
-        <table style="width: 100%; border-collapse: collapse; background-color: rgba(255, 255, 255, 0.5);">            
-            <tbody>
-                <tr>
-                     <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">${tanggalSekarang}</td>
-                     
-                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">Rp.${formattedNominal}</td>
-                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">-</td>
-                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">Rp.${saldoTotal}</td>
-                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">${keteranganSimpanan}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+   <div style="font-size: 12px; position: absolute; top: ${activityIndex * 20}px;">
+    <table style="width: 100%; border-collapse: collapse; background-color: rgba(255, 255, 255, 0.5); table-layout: fixed;">
+        <tbody>
+            <tr>
+                <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 18%; text-align: left;">${tanggalSekarang}</td>
+                <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 18%; text-align: left;">Rp.${formattedNominal}</td>
+                <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 18%; text-align: center;"">-</td>
+                <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 23%; text-align: left;">Rp.${saldoTotal}</td>
+                <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 23%; text-align: left;">${keteranganSimpanan}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 `;
 
                 var bodyContent = $('body').html();
@@ -169,18 +168,18 @@ function printPenarikan(nis) {
 
                 const printContent = `
     <div style="font-size: 12px; position: absolute; top: ${activityIndex * 20}px;">
-        <table style="width: 100%; border-collapse: collapse; background-color: rgba(255, 255, 255, 0.5);">            
-            <tbody>
-                <tr>
-                     <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">${tanggalSekarang}</td>
-                     <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">-</td>
-                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">Rp.${formattedNominal}</td>
-                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">Rp.${saldoTotal}</td>
-                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px;">${keteranganPenarikan}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <table style="width: 100%; border-collapse: collapse; background-color: rgba(255, 255, 255, 0.5); table-layout: fixed;">
+        <tbody>
+            <tr>
+                <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 18%; text-align: left;">${tanggalSekarang}</td>
+                <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 18%; text-align: left;">Rp.${formattedNominal}</td>
+                <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 18%; text-align: center;"">-</td>
+                <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 23%; text-align: left;">Rp.${saldoTotal}</td>
+                <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 23%; text-align: left;">${keteranganPenarikan}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 `;
 
 
