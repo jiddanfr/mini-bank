@@ -19,7 +19,6 @@ class NasabahController extends Controller
         }
 
         $nasabahs = $query->get(); // Menggunakan get() untuk menampilkan data
-
         $kelasList = Nasabah::distinct()->pluck('kelas'); // Ambil daftar kelas yang unik
 
         return view('nasabah.index', compact('nasabahs', 'kelasList', 'kelas'));
@@ -50,28 +49,30 @@ class NasabahController extends Controller
     }
 
     public function edit($nis)
-    {
-        $nasabah = Nasabah::where('nis', $nis)->firstOrFail();
-        return view('nasabah.form', compact('nasabah'));
-    }
+{
+    $nasabah = Nasabah::where('nis', $nis)->firstOrFail();
+    return view('nasabah.edit', compact('nasabah')); // Pastikan ini mengarah ke view edit
+}
 
-    public function update(Request $request, $nis)
-    {
-        $validatedData = $request->validate([
-            'nama' => 'required|max:255',
-            'kelas' => 'required|max:255',
-            'saldo_total' => 'required|numeric',
-        ], [], [
-            'nama' => 'Nama',
-            'kelas' => 'Kelas',
-            'saldo_total' => 'Saldo Total',
-        ]);
 
-        $nasabah = Nasabah::where('nis', $nis)->firstOrFail();
-        $nasabah->update($validatedData);
+public function update(Request $request, $nis)
+{
+    $validatedData = $request->validate([
+        'nama' => 'required|max:255',
+        'kelas' => 'required|max:255',
+        'saldo_total' => 'required|numeric',
+    ], [], [
+        'nama' => 'Nama',
+        'kelas' => 'Kelas',
+        'saldo_total' => 'Saldo Total',
+    ]);
 
-        return redirect()->route('nasabah.index')->with('success', 'Data nasabah berhasil diperbarui.');
-    }
+    $nasabah = Nasabah::where('nis', $nis)->firstOrFail();
+    $nasabah->update($validatedData);
+
+    return redirect()->route('nasabah.index')->with('success', 'Data nasabah berhasil diperbarui.');
+}
+
 
     public function checkNis($nis)
     {
@@ -96,7 +97,6 @@ class NasabahController extends Controller
     public function destroy($nis)
     {
         $nasabah = Nasabah::where('nis', $nis)->firstOrFail();
-
         $nasabah->delete();
 
         return redirect()->route('nasabah.index')->with('success', 'Nasabah berhasil dihapus.');

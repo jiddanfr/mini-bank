@@ -29,7 +29,6 @@
                 <form action="{{ route('nasabah.index') }}" method="GET" id="formCari" class="mb-3">
                     <div class="d-flex flex-column gap-3">
                         <div class="form-group">
-                            
                             <select name="kelas" id="kelas" class="form-control form-control-sm" onchange="cariKelas(this.value)">
                                 <option value="">Semua Kelas</option>
                                 @foreach ($kelasList as $kelasItem)
@@ -62,9 +61,10 @@
                                 <td>{{ $nasabah->kelas }}</td>
                                 <td>{{ rupiah($nasabah->saldo_total) }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('nasabah.edit', $nasabah->nis) }}" class="btn btn-warning btn-sm">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
+                                <a href="{{ route('nasabah.edit', $nasabah->nis) }}" class="btn btn-warning btn-sm">
+    <i class="bi bi-pencil-square"></i>
+</a>
+
                                     <form action="{{ route('nasabah.destroy', $nasabah->nis) }}" method="POST" style="display:inline;" onsubmit="return confirm('Anda yakin ingin menghapus nasabah ini?');">
                                         @csrf
                                         @method('DELETE')
@@ -118,7 +118,5 @@
                 $('#formCari').submit();
             });
         });
-
-        
     </script>
 @endpush
