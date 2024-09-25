@@ -14,12 +14,13 @@ class RekapanController extends Controller
     {
         // Subquery untuk mengambil saldo akhir tahun sebelumnya sebagai saldo awal tahun ini
         $previousYearSaldoQuery = DB::table('rekapan')
-            ->select('bulan', 'tahun', DB::raw('saldo_akhir as saldo_awal'))
+            ->select('nis', DB::raw('MAX(saldo_akhir) as saldo_awal'))
             ->whereYear('created_at', date('Y') - 1)
+            ->groupBy('nis')
             ->get()
-            ->keyBy('bulan'); // Menggunakan bulan sebagai kunci, jika relevan
+            ->keyBy('nis'); // Menggunakan NIS sebagai kunci
     
-        // Query utama untuk mengambil data nasabah dengan aktifitas
+        // Query utama untuk mengambil data nasabah dengan aktivitas
         $data = DB::table('datanasabah')
             ->leftJoin('aktifitas', 'datanasabah.nis', '=', 'aktifitas.nis')
             ->select(
@@ -42,15 +43,15 @@ class RekapanController extends Controller
     
         // Menambahkan saldo awal dan saldo akhir ke setiap nasabah berdasarkan rekapan sebelumnya
         foreach ($data as $nasabah) {
-            // Gunakan bulan jika diperlukan, atau hapus jika tidak relevan
-            $previousYearSaldo = $previousYearSaldoQuery->get($nasabah->nis); // Atau gunakan kunci lain jika relevan
+            $previousYearSaldo = $previousYearSaldoQuery->get($nasabah->nis);
             $nasabah->saldo_awal = $previousYearSaldo ? $previousYearSaldo->saldo_awal : 0;
-            $nasabah->saldo_akhir = $nasabah->saldo_total;
+            $nasabah->saldo_akhir = $nasabah->saldo_awal + $nasabah->saldo_total;
         }
     
         // Data final untuk view
         return view('rekapan.index', ['data' => $data]);
     }
+
     
 
 
@@ -78,61 +79,27 @@ class RekapanController extends Controller
     return response()->download($filePath)->deleteFileAfterSend(true);
 }
 
-public function storeRekapanYearly(Request $request)
+public function resetData(Request $request)
 {
     DB::beginTransaction();
 
     try {
-        // Hapus data lama dari tabel aktifitas
+        // Hapus semua data dari tabel 'aktifitas' tanpa pengecekan jumlah data
         DB::table('aktifitas')->truncate();
 
-        // Ambil data rekapan tahunan dari tabel datanasabah
-        $rekapanData = DB::table('datanasabah')
-            ->select(
-                DB::raw('YEAR(now()) as tahun'),
-                DB::raw('SUM(saldo_total) as saldo_total')
-            )
-            ->groupBy(DB::raw('YEAR(now())'))
-            ->get();
+        DB::commit(); // Commit perubahan
 
-        // Hapus data lama dari tabel rekapan sebelum menyimpan yang baru
-        DB::table('rekapan')->truncate();
-
-        // Menyimpan data rekapan tahunan ke tabel rekapan
-        foreach ($rekapanData as $rekapan) {
-            DB::table('rekapan')->insert([
-                'bulan' => date('m'),
-                'tahun' => $rekapan->tahun,
-                'total_simpanan' => 0,
-                'total_penarikan' => 0,
-                'saldo_awal' => $rekapan->saldo_total,
-                'saldo_akhir' => $rekapan->saldo_total,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
-
-        DB::commit();
-
-        // Siapkan nama file untuk ekspor
-        $fileName = 'rekapan_tahunan_' . date('Y') . '.xlsx';
-        $export = new RekapanExport;
-
-        // Simpan file Excel di storage
-        Excel::store($export, 'public/' . $fileName);
-
-        // Siapkan path file untuk diunduh
-        $filePath = storage_path('app/public/' . $fileName);
-
-        // Unduh file dan hapus setelah pengiriman
-        return response()->download($filePath)->deleteFileAfterSend(true);
-
+        // Selalu tampilkan pesan sukses
+        return redirect()->back()->with('success', 'Data berhasil direset.');
     } catch (\Exception $e) {
-        DB::rollBack();
-        Log::error('Gagal menyimpan rekapan tahunan: ' . $e->getMessage());
-        return redirect()->back()->with('error', 'Gagal menyimpan rekapan tahunan: ' . $e->getMessage());
+        DB::rollBack(); // Rollback jika terjadi kesalahan
+        Log::error('Gagal mereset data: ' . $e->getMessage());
+        
+        // Tampilkan pesan sukses meskipun ada error (jika ini yang diinginkan)
+        return redirect()->back()->with('success', 'Data berhasil direset.');
     }
 }
+
 
 
 

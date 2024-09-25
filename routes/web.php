@@ -46,7 +46,8 @@ Route::get('/rekapan', [RekapanController::class, 'index'])->name('rekapan.index
 Route::get('/rekapan/export', [RekapanController::class, 'export'])->name('rekapan.export');
 Route::get('/rekapan/aktivitas/{nis}', [RekapanController::class, 'getAktivitas']);
 Route::post('/rekapan/storerekapan', [RekapanController::class, 'storeRekapan'])->name('rekapan.storeRekapan');
-Route::post('/rekapan/store-yearly', [RekapanController::class, 'storeRekapan'])->name('rekapan.storeRekapanYearly');
+Route::post('/rekapan/reset-data', [RekapanController::class, 'resetData'])->name('rekapan.resetData');
+
 
 // Rute untuk riwayat rekapan
 Route::get('/riwayat-rekapan', [RiwayatRekapanController::class, 'index'])->name('riwayat_rekapan.index');
