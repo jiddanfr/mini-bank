@@ -72,7 +72,7 @@ function printSimpanan(nis) {
                                     <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 19%; text-align: left;">Rp.${formattedNominal}</td>
                                     <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 19%; text-align: center;">-</td>
                                     <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 23%; text-align: left;">Rp.${saldoTotal}</td>
-                                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 23%; text-align: center;">${keteranganSimpanan}</td>
+                                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 23%; text-align: left;">${keteranganSimpanan}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -181,15 +181,15 @@ function printPenarikan(nis) {
                 console.log("Posisi penarikan: ", activityIndex);
 
                 const printContent = `
-                    <div style="font-size: 12px; position: absolute; top: ${activityIndex * 20}px;">
+                    <div style="font-size: 12px; position: absolute; top: ${activityIndex * 20}px; ">
                         <table style="width: 100%; border-collapse: collapse; background-color: rgba(255, 255, 255, 0.5); table-layout: fixed;">
                             <tbody>
                                 <tr>
                                     <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 16%; text-align: left;">${tanggalSekarang}</td>
-                                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 19%; text-align: left;">Rp.${formattedNominal}</td>
                                     <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 19%; text-align: center;">-</td>
+                                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 19%; text-align: left;">Rp.${formattedNominal}</td>                                    
                                     <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 23%; text-align: left;">Rp.${saldoTotal}</td>
-                                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 23%; text-align: center;">${keteranganPenarikan}</td>
+                                    <td style="border: 1px solid rgba(0, 0, 0, 0); padding: 8px; width: 23%; text-align: left;">${keteranganPenarikan}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -248,7 +248,7 @@ function getActivityIndex(nis) {
     index += 1;
 
     // Jika indeks melebihi 30, kembali ke 1
-    if (index > 30) {
+    if (index > 28) {
         index = 1;
     }
 

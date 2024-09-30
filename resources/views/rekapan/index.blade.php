@@ -27,13 +27,14 @@
             // Jika kunci diawali dengan 'activityIndex_'
             if (key.startsWith('activityIndex_')) {
                 localStorage.removeItem(key);
-                console.log(`Activity Index untuk ${key} telah direset.`);
+                
             }
         }
 
         console.log("Semua Activity Index telah direset.");
     }
 </script>
+
 
     </div>
 
